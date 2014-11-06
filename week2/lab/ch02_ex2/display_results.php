@@ -11,20 +11,28 @@
     
     // validate investment entry
     if ( empty($investment) ) {
-        $error_message = '<p>Investment is a required field.</p>'; }
-    else if ( !is_numeric($investment) )  {
-        $error_message = '<p>Investment must be a valid number.</p>'; }
-    else if ( $investment <= 0 ) {
-        $error_message = '<p>Investment must be greater than zero.</p>'; }
+        $error_message .= '<p>Investment is a required field.</p>'; }
+     if ( !is_numeric($investment) )  {
+        $error_message .= '<p>Investment must be a valid number.</p>'; }
+     if ( $investment <= 0 ) {
+        $error_message .= '<p>Investment must be greater than zero.</p>'; }
 
     // validate interest rate entry
-    else if ( empty($interest_rate) ) {
-        $error_message = '<p>Interest rate is a required field.</p>'; }
-    else if ( !is_numeric($interest_rate) )  {
-        $error_message = '<p>Interest rate must be a valid number.</p>'; }
-    else if ( $interest_rate <= 0  || $interest_rate > 16) {
-        $error_message = '<p>Interest rate must be greater than zero and less than or equal to 15.</p>'; }
+     if ( empty($years) ) {
+        $error_message .= '<p>Year is a required field.</p>'; }
+     if ( !is_numeric($years) )  {
+        $error_message .= '<p>Year must be a valid number.</p>'; }
+     if ( $years <= 0  || $years > 51) {
+        $error_message .= '<p>Yesar must be greater than zero and less than or equal to 50.</p>'; }
 
+        
+        // validate year
+     if ( empty($interest_rate) ) {
+        $error_message .= '<p>Interest rate is a required field.</p>'; }
+     if ( !is_numeric($interest_rate) )  {
+        $error_message .= '<p>Interest rate must be a valid number.</p>'; }
+     if ( $interest_rate <= 0  || $interest_rate > 16) {
+        $error_message .= '<p>Interest rate must be greater than zero and less than or equal to 15.</p>'; }
     
     
 
