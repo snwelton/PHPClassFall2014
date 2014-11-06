@@ -1,9 +1,37 @@
 <?php
     // get the data from the form
-    $product_description = $_POST['product_description'];
-    $list_price = $_POST['list_price'];
-    $discount_percent = $_POST['discount_percent'];
+    $product_description = filter_input(INPUT_POST,'product_description');
+    $list_price = filter_input(INPUT_POST,'list_price');
+    $discount_percent = filter_input(INPUT_POST,'discount_percent');
     
+    $error_message = '';  
+    
+    //validate product description
+        if (empty($product_description)){
+            $error_message = 'Product description is a required field.';
+        }
+          
+        // validate list price
+        if (empty($list_price)){
+        $error_message = 'List price is a required field.'; }
+        else if (!is_numeric($list_price)){
+            $error_message = 'List price must be a valid number.'; }
+            
+            // validate list price
+        if (empty($discount_percent)){
+        $error_message = 'Discount percent is a required field.'; }
+        else if (!is_numeric($discount_percent)){
+            $error_message = 'Discount percent must be a valid number.'; }
+            
+       
+        
+            
+        // if an error message exists, go to the index page
+        if ($error_message != '') {
+            include('index.php');
+            exit();
+        }
+        
     // calculate the discount
     $discount = $list_price * $discount_percent * .01;
     $discount_price = $list_price - $discount;
@@ -11,7 +39,8 @@
     $list_price_formatted = "$".number_format($list_price, 2);
     $discount_percent_formatted = $discount_percent."%";
     $discount_formatted = "$".number_format($discount, 2);
-    $discount_price_formatted = "$".number_format($discount_price, 2);            
+    $discount_price_formatted = "$".number_format($discount_price, 2); 
+        
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,6 +69,8 @@
         <span><?php echo $discount_price_formatted; ?></span><br />
 
         <p>&nbsp;</p>
+        
+        <a href="index.php?">Back</a>
     </div>
 </body>
 </html>
