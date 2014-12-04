@@ -9,17 +9,16 @@
 <body>
     <div id="content">
         <h1>Sign Up</h1>
-        <form action="." method="post">
-        <input type="hidden" name="action" value="process_data"/>
-
+        <form action="." method="post">    
+        
+        
+        
         <label>Email</label>
-        <input type="text" name="email" 
-               value="<?php echo htmlspecialchars($email); ?>"/>
+        <input type="text" name="email"           value=""/>
         <br />
 
         <label>Password</label>
-        <input type="text" name="password" 
-               value="<?php echo htmlspecialchars($password); ?>"/>
+        <input type="text" name="password"             value=""/>
         <br />
 
        
@@ -27,11 +26,20 @@
         <label>&nbsp;</label>
         <input type="submit" value="Submit" />
         <br />
-
+        
         </form>
 
         <h2>Message:</h2>
-        <p><?php echo nl2br(htmlspecialchars($message)); ?></p>
+        
+        <p><?php
+        
+        if(!empty($message)){
+            echo nl2br(htmlspecialchars($message)); 
+        }
+        
+        
+        
+        ?></p>
 
     </div>
 </body>

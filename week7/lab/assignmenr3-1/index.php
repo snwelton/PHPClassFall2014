@@ -2,31 +2,27 @@
             "http://www.w3.org/TR/xhtml1/DTDxhtml-transitional.dtd">
         
          
-         <?php
-         
-          // create or update database
-         $id = filter_input(INPUT_POST, 'id');
-         $email = filter_input(INPUT_POST, 'email');
-         $password = filter_input(INPUT_POST, 'password');
+        <?php         
+        // insert into database      
+        
+        $email = filter_input(INPUT_POST, 'email');
+        $password = filter_input(INPUT_POST, 'password');
          
         $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
 
-        $dbs = $db->prepare('update signup set email=:email, password=:password where id = :id');
-
-
-
-        $dbs->bindParam(':id', $id, PDO::PARAM_INT);
-        $dbs->bindParam(':email', $email, PDO::PARAM_STR);
+        $dbs = $db->prepare('insert into signup set email=:email, password=:password');
+        
+        
+        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
         $dbs->bindParam(':password', $password, PDO::PARAM_STR);
         
         if ( $dbs->execute() && $dbs->rowCount() > 0 ) {
-             echo '<h1> user ', $id,' was updated</h1>';
+             echo '<h1> user was inserted</h1>';
         } else {
-             echo '<h1> user ', $id,' was <strong>NOT</strong> updated</h1>';
+             echo '<h1> user was <strong>NOT</strong> inserted</h1>';
              print_r($db->errorInfo());
         }
   
-                
                 
          if (isset($_POST['action'])){
              $action = $_POST['action'];
@@ -34,20 +30,18 @@
              $action = 'start_app';
          }
          
+         
+         //start page with empty textboxes or process the data
          switch ($action){
              case 'statr_app':
                  $email = '';
                  $password = '';
                  $message = 'Enter email and password';
                  break;
-             case 'process_data':
-                 
-                 $email = trim($email);
-                 
+             case 'process_data':                 
+                 $email = trim($email);                 
                  $message = '';
-                 
-                 
-                
+                        
                  
                  // validate email
                  if (empty($email)){
@@ -67,7 +61,6 @@
                      }
                      
                      
-                     
                 // validate the password
                 $check_pass = strlen($password);
                 if ($check_pass < 4){
@@ -77,12 +70,18 @@
                 }
                 
                 $password = sha1($password); 
-                break;
-                         
-                     
-                 
+                break;     
          }
          
+         
+         //check email login
+         
+        
+        
+         
+         
+         
+         //var_dump($email);
          
          include 'display_results.php';
          
