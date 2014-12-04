@@ -10,7 +10,7 @@
         
         $email = filter_input(INPUT_POST, 'email'); 
         $password = filter_input(INPUT_POST, 'password'); 
-        
+        var_dump($_POST);
         $error_message = '';                       
                  
         // validate email
@@ -25,7 +25,7 @@
 
         $check_email = strpos($email, '@');
         if ($check_email === false){
-            $error_message = 'Email needs an @ symbol to be valid';
+            $error_message .= 'Email needs an @ symbol to be valid';
             }
 
        // validate the password
@@ -36,14 +36,24 @@
        
        
        // if the error message is empty then send data to datebase
-       if(!empty($error_message)){
+       if($error_message == ''){
            
+        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
+        
+        $dbs = $db->prepare('insert into signup set email = :email, password = :password');
+        
+        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
+        $dbs->bindParam(':password', $password, PDO::PARAM_STR);
+        
+            if ( $dbs->execute() && $dbs->rowCount() > 0 ) {
+             echo '<h1> user was inserted</h1>';
+            } else {
+             echo '<h1> user was <strong>NOT</strong> inserted</h1>';  
+             var_dump($db->errorInfo());
+            }
+         
            
        }
-       
-       
-       
-       
         
                 include './index.php';
         ?>
