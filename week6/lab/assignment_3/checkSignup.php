@@ -34,6 +34,7 @@
            $error_message .= 'Password needs to be at least 4 characters';                    
        }
        
+       $password = sha1($password); 
        
        // if the error message is empty then send data to datebase
        if($error_message == ''){
