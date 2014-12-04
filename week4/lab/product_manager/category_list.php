@@ -8,6 +8,7 @@
             <th>&nbsp;</th>
         </tr>
     <!-- add categories table here -->
+    <form action=""
     <label>Category:</label>
     <select name="category_id">
         <?php foreach ($categories as $category) : ?>

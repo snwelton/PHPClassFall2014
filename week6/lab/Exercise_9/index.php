@@ -10,9 +10,14 @@ switch ($action) {
         $message = 'Enter some data and click on the Submit button.';
         break;
     case 'process_data':
-        $name = $_POST['name'];
+        $name = $_POST['name'];        
         $email = $_POST['email'];
-        $phone = $_POST['phone'];       
+        $phone = $_POST['phone'];         
+        //removes spaces at the end
+        $name = trim($name);
+        $email = trim($email);
+        $phone = trim($phone);
+        $message = '';
         
 
         /*************************************************

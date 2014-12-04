@@ -13,13 +13,13 @@
         <input type="hidden" name="action" value="process_data"/>
 
         <label>Email</label>
-        <input type="text" name="name" 
+        <input type="text" name="email" 
                value="<?php echo htmlspecialchars($email); ?>"/>
         <br />
 
         <label>Password</label>
-        <input type="text" name="email" 
-               value="<?php echo htmlspecialchars($passwordSafe); ?>"/>
+        <input type="text" name="password" 
+               value="<?php echo htmlspecialchars($password); ?>"/>
         <br />
 
        
