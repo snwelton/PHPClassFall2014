@@ -18,7 +18,7 @@ switch( $_POST['action'] ) {
         if (empty($new_task)) {
             $errors[] = 'The new task cannot be empty.';
         } else {
-            $task_list[] = $new_task;
+            array_push($task_list, $new_task);
         }
         break;
     case 'Delete Task':
@@ -26,8 +26,13 @@ switch( $_POST['action'] ) {
         unset($task_list[$task_index]);
         $task_list = array_values($task_list);
         break;
-/*
     case 'Modify Task':
+        $task_index= $_POST['taskid'];
+        
+        break;
+        
+/*
+    
     
     case 'Save Changes':
     

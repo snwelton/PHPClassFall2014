@@ -1,90 +1,46 @@
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-            "http://www.w3.org/TR/xhtml1/DTDxhtml-transitional.dtd">
-        
-         
-        <?php         
-        // insert into database      
-        
-        $email = filter_input(INPUT_POST, 'email');
-        $password = filter_input(INPUT_POST, 'password');
-         
-        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
 
-        $dbs = $db->prepare('insert into signup set email=:email, password=:password');
-        
-        
-        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
-        $dbs->bindParam(':password', $password, PDO::PARAM_STR);
-        
-        if ( $dbs->execute() && $dbs->rowCount() > 0 ) {
-             echo '<h1> user was inserted</h1>';
-        } else {
-             echo '<h1> user was <strong>NOT</strong> inserted</h1>';
-             print_r($db->errorInfo());
-        }
-  
-                
-         if (isset($_POST['action'])){
-             $action = $_POST['action'];
-         }else{
-             $action = 'start_app';
-         }
-         
-         
-         //start page with empty textboxes or process the data
-         switch ($action){
-             case 'statr_app':
-                 $email = '';
-                 $password = '';
-                 $message = 'Enter email and password';
-                 break;
-             case 'process_data':                 
-                 $email = trim($email);                 
-                 $message = '';
-                        
-                 
-                 // validate email
-                 if (empty($email)){
-                     $message .= 'Please enter an email address';
-                 }
-                 
-                 $check_email = strpos($email, '.');
-                 if ($check_email === false){
-                     $message .= 'Email needs a period to be valid';
-                 }
-                 
-                 $check_email = strpos($email, '@');
-                 if ($check_email === false){
-                     $message = 'Email needs an @ symbol to be valid';
-                     }else {
-                         $message .= 'valid email  ';
-                     }
-                     
-                     
-                // validate the password
-                $check_pass = strlen($password);
-                if ($check_pass < 4){
-                    $message .= 'Password needs to be at least 4 characters';                    
-                }else{
-                    $message .= 'valid password';
-                }
-                
-                $password = sha1($password); 
-                break;     
-         }
-         
-         
-         //check email login
-         
-        
-        
-         
-         
-         
-         //var_dump($email);
-         
-         include 'display_results.php';
-         
-         ?>      
-             
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="main.css"/>
+    </head>
+    <body>
+          <div id="content">
+        <h1>Sign Up</h1>
+        <form action="checkSignup.php" method="post">   
+            
+        <label>Email</label>
+        <input type="text" name="email"           value=""/>
+        <br />
+
+        <label>Password</label>
+        <input type="text" name="password"             value=""/>
+        <br />
+
        
+        <label>&nbsp;</label>
+        <input type="submit" value="Submit" />
+        <br />
+        
+        </form>
+
+        <h2>Message:</h2>
+        
+        <p><?php
+        
+        if(!empty($error_message)){
+            echo nl2br(htmlspecialchars($error_message)); 
+        }
+        
+        ?></p>
+        
+        
+    </body>
+</html>
