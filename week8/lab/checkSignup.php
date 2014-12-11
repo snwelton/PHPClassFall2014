@@ -7,12 +7,34 @@
     </head>
     <body>
         <?php
+         function checkEmailTaken($email){
+            
+            $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
+        
+            $dbs = $db->prepare('select email from signup where email = :email');
+            $dbs->bindParam(':email', $email, PDO::PARAM_STR);  
+            
+        
+            if ($dbs->execute() && $dbs->rowCount() > 0 ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        
         
         $email = filter_input(INPUT_POST, 'email'); 
         $password = filter_input(INPUT_POST, 'password'); 
-        var_dump($_POST);
+        
         $error_message = '';                       
                  
+        $emailTaken = checkEmailTaken($email);
+        
+        if ($emailTaken === true){
+            $error_message .= 'Email is taken please enter a new one';
+        }
+        var_dump($emailTaken);
         // validate email
         if (empty($email)){
             $error_message .= 'Please enter an email address';
@@ -57,28 +79,14 @@
        }
        
        //check to see if the user is logged in
-       session_start();
-         
-         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-               echo "Welcome to the member's area, " . $_SESSION['username'] . "!";
-            } else {
-                 $error_message .=  "Please log in first to see this page.";
-            }
-        
-            
-            //checking if email exits
-            $checkEmail = "SELECT email FROM lf_clients WHERE email = " .$_POST['email'];
-            
-            if ($checkEmail > 0){
-                echo 'Email exists';                              
-            }else{
-                echo 'Email does not exist';                
-            }
-            
-            
-                
-            
-            
+       
+       
+
+
+
+
+
+
                 include './index.php';
         ?>
     </body>
