@@ -56,6 +56,7 @@
          
            
        }
+       $password = sha1($password); 
         
                 include './index.php';
         ?>
