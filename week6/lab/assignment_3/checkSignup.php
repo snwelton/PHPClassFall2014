@@ -39,7 +39,8 @@
        // if the error message is empty then send data to datebase
        if($error_message == ''){
            
-        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
+        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");   
+        
         
         $dbs = $db->prepare('insert into signup set email = :email, password = :password');
         

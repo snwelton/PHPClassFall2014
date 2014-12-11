@@ -9,6 +9,8 @@
         // put your code here
         // accessing the class
         include './Sample.php';
+        include './Config.php';     
+        include './db.php';
         
         //create a variable for the class
         $sample = new Sample();
@@ -17,6 +19,10 @@
         $sample ->say();
         
         $sample->db;
+        
+        $pdo = new DB();
+        
+        var_dump($pdo->getPDO() );
         
         ?>
     </body>

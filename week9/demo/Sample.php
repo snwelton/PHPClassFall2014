@@ -2,25 +2,23 @@
 
 
 class Sample {
-    
-    private $db = 'database';
-    
-    //get and set allows people to only access a database not delete
-    function getDb() {
+        
+    private $db = null;
+    public function getDb() {
         return $this->db;
     }
-
-    function setDb($db) {
-        $this->db = $db;
+    public function setDb($db) {
+        if ( !is_null($db) ) {
+            $this->db = $db;            
+            return true;
+        }
+        return false;
     }
-
-        
-    /**
-     * will echo out "say something"
-     * 
-     * @return null
-     */
-   
+        /**
+    * Will Echo out "say something"
+    *    
+    * @return null
+    */
     public function say() {
         echo 'say something';
     }
