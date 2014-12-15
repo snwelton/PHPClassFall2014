@@ -20,6 +20,19 @@
             }else{
                 return false;
             }
+        }    
+        
+        function checkEmailExist($email){
+             $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
+        
+            $dbs = $db->prepare('select email from signup where email = :email');
+            $dbs->bindParam(':email', $email, PDO::PARAM_STR);  
+            
+            if ($dbs->execute() && $dbs->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
         }
         
         
@@ -30,11 +43,19 @@
         $error_message = '';                       
                  
         $emailTaken = checkEmailTaken($email);
+        $emailExist = checkEmailExist($email);
         
         if ($emailTaken === true){
             $error_message .= 'Email is taken please enter a new one';
         }
+        
+        if ($emailExist === true){
+            $error_message .= 'email exist, please enter a new one';
+        }
+        
+        
         var_dump($emailTaken);
+        var_dump($emailExist);
         // validate email
         if (empty($email)){
             $error_message .= 'Please enter an email address';

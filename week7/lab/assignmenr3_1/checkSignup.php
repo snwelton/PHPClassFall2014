@@ -60,6 +60,27 @@
            
        }
        
+        // if the error message is empty then send data to datebase
+       if($error_message == ''){
+           
+        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
+        
+        $dbs = $db->prepare('insert into signup set email = :email, password = :password');
+        
+        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
+        $dbs->bindParam(':password', $password, PDO::PARAM_STR);
+        
+            if ( $dbs->execute() && $dbs->rowCount() > 0 ) {
+             echo '<h1> user was inserted</h1>';
+            } else {
+             echo '<h1> user was <strong>NOT</strong> inserted</h1>';  
+             var_dump($db->errorInfo());
+            }
+         
+           
+       }
+       
+       
        //check to see if the user is logged in
        function checkEmailTaken($email){
             
