@@ -3,11 +3,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="main.css"/>
     </head>
     <body>
         <?php
-         function checkEmailTaken($email){
+        //remove all session variables
+        if(!isset($_SESSION))
+            session_start ();
+        session_unset();
+        session_destroy();
+        
+        
+        
+            //check to see if the email has been taken
+       function checkEmailTaken($email){
             
             $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
         
@@ -22,6 +32,7 @@
             }
         }    
         
+        //check if email exist for user
         function checkEmailExist($email){
              $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
         
@@ -101,23 +112,25 @@
        
        
        
-
-        //check to see if the user is logged in
-       session_start();
-         
+          //check to see if the user is logged in       
          if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
                echo "Welcome to the member's area, " . $_SESSION['username'] . "!";
             } else {
                  $error_message .=  "Please log in first to see this page.";
             }
+       
+           
+        if (checkEmailExist($email) == true && checkEmailTaken($email) == true){
+            header('Location: admin.php');
+        }
+            
 
 
-
-        session_regenerate_id();
+        
         echo '<br />';
 
                 include './index.php';
-                include './assignment3-2/header.php';
+                include './header.php';
         ?>
     </body>
 </html>

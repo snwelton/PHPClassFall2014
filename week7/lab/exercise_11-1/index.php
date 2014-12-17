@@ -26,23 +26,39 @@ switch( $_POST['action'] ) {
         unset($task_list[$task_index]);
         $task_list = array_values($task_list);
         break;
-    case 'Modify Task':
-        $task_index= $_POST['taskid'];
-        
+     case 'Modify Task':
+        $task_index = $_POST['taskid'];
+        $task_to_modify = $task_list[$task_index];
+        break;
+    //save changes
+    case 'Save Changes':
+        $i = $_POST['modifiedtaskid'];
+        $modified_task = $_POST['modifiedtask'];
+        $task_list[$i] = $modified_task;
+        $modified_task = '';
+        break;
+    //cancel
+    case 'Cancel Changes':
+        $modified_task = '';
+        break;
+    //promote task code
+    case 'Promote Task':
+        $task_index = $_POST['taskid'];
+        if ($task_index == 0) {  
+            $errors[] = 'The first task cannot be promoted.  Please select another task.';
+        } else {
+            $task_order_default = $task_list[$task_index];
+            $task_order_new = $task_list[$task_index-1];
+            $task_list[$task_index-1] = $task_order_default;
+            $task_list[$task_index] = $task_order_new;
+        }
+        break;
+    case 'Sort Tasks':
+        sort($task_list);
         break;
         
-/*
     
-    
-    case 'Save Changes':
-    
-    case 'Cancel Changes':
-    
-    case 'Promote Task':
-        
-    case 'Sort Tasks':
-    
-*/
+
 }
 
 include('task_list.php');
