@@ -11,9 +11,22 @@
     <form action=""
     <label>Category:</label>
     <select name="category_id">
-        <?php foreach ($categories as $category) : ?>
-        <option value="<?php echo $category[$category_name]; ?>"></option>
-        <?php endforeach; ?>
+       <?php foreach ($products as $product) : ?>
+            <tr>
+                <td><?php echo $product['productCode']; ?></td>
+                <td><?php echo $product['productName']; ?></td>
+                <td class="right"><?php echo $product['listPrice']; ?></td>
+                <td><form action="." method="post">
+                    <input type="hidden" name="action"
+                           value="delete_product" />
+                    <input type="hidden" name="product_id"
+                           value="<?php echo $product['productID']; ?>" />
+                    <input type="hidden" name="category_id"
+                           value="<?php echo $product['categoryID']; ?>" />
+                    <input type="submit" value="Delete" />
+                </form></td>
+            </tr>
+            <?php endforeach; ?>
     </select>
     <br />
     
