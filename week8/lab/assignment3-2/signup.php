@@ -11,8 +11,7 @@
         //remove all session variables
         if(!isset($_SESSION))
             session_start ();
-        session_unset();
-        session_destroy();
+        
         
         
         
@@ -120,11 +119,26 @@
             }
        
            
-        if (checkEmailExist($email) == true && checkEmailTaken($email) == true){
-            header('Location: admin.php');
-        }
+        
             
-
+        if (checkEmailExist($email)== false)
+        {
+           $errors[] = "Invalid Email.  Email not found.";
+        }
+        if (checkEmailTaken($email)== true)
+        {
+            $_SESSION['loggedin']=true;
+        }
+        else
+        {
+            $_SESSION['loggedin']=false;
+            $errors[] = "Invalid Login.  Please reenter email and password.";
+        }
+    
+        if ($_SESSION['loggedin'] == true)
+        {
+          header('Location: Admin.php');
+        }
 
         
         echo '<br />';

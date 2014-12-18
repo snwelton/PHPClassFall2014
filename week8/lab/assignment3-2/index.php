@@ -23,7 +23,7 @@
     <body>
           <div id="content">
         <h1>Sign Up</h1>
-        <form action="login.php" method="post">   
+        <form action="signup.php" method="post">   
             
         <label>Email</label>
         <input type="text" name="email"           value=""/>

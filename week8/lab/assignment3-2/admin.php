@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-<?php
-if(!isset($_SESSION))
-    session_start ();
-if(!isset($_SESSION['loggedin']))
-    header ('Location: login.php');
-?>
+
 
 <html>
     <head>
@@ -14,6 +9,11 @@ if(!isset($_SESSION['loggedin']))
     </head>
     <body>
         <?php
+        
+        if(!isset($_SESSION))
+              session_start ();
+        if(!isset($_SESSION['loggedin']))
+          header ('Location: login.php');
         
         include './header.php';
         
