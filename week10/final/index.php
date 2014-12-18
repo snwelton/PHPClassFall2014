@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- Sara Welton -->
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -14,7 +15,7 @@
             <fieldset>
             <legend>Account Information</legend>
                 <label>E-Mail:</label>
-                <input type="text" name="email" value="<?php echo htmlspecialchars($email); ?>" class="textbox"/>
+                <input type="text" name="email" value="<?php print ($email); ?>" class="textbox"/>
                 <br />
 
                 <label>Phone Number:</label>
@@ -44,6 +45,7 @@
             </fieldset>
 
             <input type="submit" value="Submit" />
+            <br /><br />
         <?php
             if(!empty($error_message)){
                 echo nl2br(htmlspecialchars($error_message)); 

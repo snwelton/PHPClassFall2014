@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <!-- Sara Welton -->
-<?php
-               
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+         <title>Mailing List Results</title>
+        <link rel="stylesheet" type="text/css" href="main.css"/>
+    </head>
+    <body>
+        <?php        
+        
         $email = filter_input(INPUT_POST, 'email'); 
-        $phone = filter_input(INPUT_POST, 'phone');        
-        $error_message = '';                       
+        $phone = filter_input(INPUT_POST, 'phone'); 
+        $heard_from = filter_input(INPUT_POST,'heard_from');
+        $contact_via = filter_input(INPUT_POST,'contact_via');
+        $comments = filter_input(INPUT_POST,'comments');
+    
+        $comments = nl2br($comments);
+        
+        $error_message = '';  
         
         $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
         
-        $dbs = $db->prepare('insert into signup set email = :email, password = :password');
+        $dbs = $db->prepare('insert into account set email = :email, phone = :phone, heard_from = :heard_from, contact_via = :contact_via, comments = :comments  ');
+        
+        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
+        $dbs->bindParam(':phone', $phone, PDO::PARAM_STR);
+        $dbs->bindParam(':heard_from', $heard_from, PDO::PARAM_STR);
+        $dbs->bindParam(':contact_via', $contact, PDO::PARAM_STR);
+        $dbs->bindParam(':comments', $comments, PDO::PARAM_STR);
+   
         
         // validate email
         if (empty($email)){
@@ -26,43 +47,54 @@
             }
 
        // validate the password
-       $check_phone = strlen($email);
-       if ($check_phone < 10 || $check_phone > 15){
-           $error_message .= 'Phone needs to be at least 10 characters';                    
+       $check_phone = strlen($phone);
+       if ($check_phone < 7 ){
+           $error_message .= 'Phone needs to be greater than 7 characters';                    
        }
        
-       
-       
-    
-      
-         
-          
-           
-       
-        ?>
-<html>
-    <head>
-        <meta charset="UTF-8">
-         <title>Mailing List Results</title>
-        <link rel="stylesheet" type="text/css" href="main.css"/>
-    </head>
-    <body>
-       <div id="content">
+       if($error_message == ''){
+        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
+        
+        $dbs = $db->prepare('insert into signup set email = :email, password = :password');
+        
+        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
+        $dbs->bindParam(':phone', $phone, PDO::PARAM_STR);
+        $dbs->bindParam(':heard_from', $heard_from, PDO::PARAM_STR);
+        $dbs->bindParam(':contact_via', $contact, PDO::PARAM_STR);
+        $dbs->bindParam(':comments', $comments, PDO::PARAM_STR); 
+       }else{
+        
+          include './index.php';
+       }
+       ?>
+        
+        <div id="content">
             <h1>Account Information</h1>
 
             <label>Email Address:</label>
-            <span></span><br />
+            <span><?php echo htmlspecialchars($email); ?></span><br />
 
             <label>Heard From:</label>
-            <span></span><br />
+            <span><?php 
+            if ($heard_from === 'checked' ) {
+                echo htmlspecialchars($heard_from);
+            }else{
+                 echo "Unknown";
+            }
+            ?></span><br />
 
             <label>Contact Via:</label>
-            <span></span><br /><br />
+            <span><?php echo htmlspecialchars($contact_via); ?></span><br /><br />
 
             <span>Comments:</span><br />
-            <span></span><br />
-
+            <span><?php echo htmlspecialchars($comments); ?></span><br />
+               <br /><br />
+            <a href="index.php?">Back</a>
+        <a href="viewpage.php">View Users</a>
         </div>
         
     </body>
 </html>
+
+
+
