@@ -12,24 +12,14 @@
         
         $email = filter_input(INPUT_POST, 'email'); 
         $phone = filter_input(INPUT_POST, 'phone'); 
-        $heard_from = filter_input(INPUT_POST,'heard_from');
-        $contact_via = filter_input(INPUT_POST,'contact_via');
+        $heard = filter_input(INPUT_POST,'heard');
+        $contact = filter_input(INPUT_POST,'contact');
         $comments = filter_input(INPUT_POST,'comments');
     
         $comments = nl2br($comments);
         
         $error_message = '';  
         
-        $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
-        
-        $dbs = $db->prepare('insert into account set email = :email, phone = :phone, heard_from = :heard_from, contact_via = :contact_via, comments = :comments  ');
-        
-        $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
-        $dbs->bindParam(':phone', $phone, PDO::PARAM_STR);
-        $dbs->bindParam(':heard_from', $heard_from, PDO::PARAM_STR);
-        $dbs->bindParam(':contact_via', $contact, PDO::PARAM_STR);
-        $dbs->bindParam(':comments', $comments, PDO::PARAM_STR);
-   
         
         // validate email
         if (empty($email)){
@@ -52,49 +42,62 @@
            $error_message .= 'Phone needs to be greater than 7 characters';                    
        }
        
-       if($error_message == ''){
+       if(!$error_message == ''){
+           
+           include './index.php';
+       }else{
         $db = new PDO("mysql:host=localhost;dbname=phpclassfall2014", "root", "");
         
-        $dbs = $db->prepare('insert into signup set email = :email, password = :password');
+        $dbs = $db->prepare('insert into account set email = :email, phone=:phone, heard=:heard, contact=:contact, comments=:comments ');
         
         $dbs->bindParam(':email', $email, PDO::PARAM_STR);        
         $dbs->bindParam(':phone', $phone, PDO::PARAM_STR);
-        $dbs->bindParam(':heard_from', $heard_from, PDO::PARAM_STR);
-        $dbs->bindParam(':contact_via', $contact, PDO::PARAM_STR);
+        $dbs->bindParam(':heard', $heard, PDO::PARAM_STR);
+        $dbs->bindParam(':contact', $contact, PDO::PARAM_STR);
         $dbs->bindParam(':comments', $comments, PDO::PARAM_STR); 
-       }else{
         
-          include './index.php';
-       }
+        if ( $dbs->execute() && $dbs->rowCount() > 0 ) {
+             $error_message = '';
+            } else {
+             $error_message .= 'Inpur error';  
+            }
+         
+               
        ?>
         
         <div id="content">
             <h1>Account Information</h1>
 
             <label>Email Address:</label>
-            <span><?php echo htmlspecialchars($email); ?></span><br />
+            <span><?php print($email); ?></span><br />
+            
+            <label>Phone Number:</label>
+            <span><?php print($phone); ?></span><br />
 
             <label>Heard From:</label>
             <span><?php 
-            if ($heard_from === 'checked' ) {
-                echo htmlspecialchars($heard_from);
+            if ($heard === 'Search Engine' ||  $heard === 'Friend' || $heard === 'Other') {
+                echo htmlspecialchars($heard);
             }else{
-                 echo "Unknown";
+                 $error_message .= 'Error, please tell us how you heard about us.';
             }
             ?></span><br />
 
             <label>Contact Via:</label>
-            <span><?php echo htmlspecialchars($contact_via); ?></span><br /><br />
+            <span><?php echo htmlspecialchars($contact); ?></span><br /><br />
 
             <span>Comments:</span><br />
             <span><?php echo htmlspecialchars($comments); ?></span><br />
                <br /><br />
-            <a href="index.php?">Back</a>
-        <a href="viewpage.php">View Users</a>
+            <a href="index.php?">Back</a><br />
+        <a href="view_page.php">View Users</a>
+        
         </div>
         
     </body>
 </html>
 
-
+<?php 
+       }
+       ?>
 
